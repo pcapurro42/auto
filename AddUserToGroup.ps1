@@ -17,7 +17,7 @@ try
             Exit
         }
 
-        $userExist = Get-ADUser -Filter {SamAccountName -eq $userName}
+        $userExist = Get-ADUser -Filter {SamAccountName -eq $userName} -ErrorAction Stop
         # Get infos about a user with the name
     }
 
@@ -38,7 +38,7 @@ try
     }
 
     try {
-        Add-ADGroupMember -Identity $groupName -Members $userName
+        Add-ADGroupMember -Identity $groupName -Members $userName -ErrorAction Stop
         # Add a user to a group
     }
     catch {

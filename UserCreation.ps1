@@ -26,12 +26,12 @@ try
         Exit
     }
 
-    $DomainName = "domolia.local"
-    $Email = "$FirstName.$LastName@$DomainName".ToLower()
+    $domainName = (Get-ADDomain -ErrorAction Stop)
+    $Email = "$FirstName.$LastName@$domainName".ToLower()
     $UserPrincipalName = $Email
 
     # Use the CN=Users container
-    $OUPath = "CN=Users,DC=Domolia,DC=local"
+    $OUPath = "CN=Users,$domainName"
     Write-Host "You entered the following OUPath: $OUPath" -ForegroundColor Yellow
 
     # Create a secure password
@@ -55,7 +55,7 @@ try
     # Create the user
     Try {
         Write-Host "Creating user $FirstName $LastName ($SamAccountName)..." -ForegroundColor Yellow
-        New-ADUser @UserParams
+        New-ADUser @UserParams -ErrorAction Stop
         Write-Host "User $FirstName $LastName created successfully!" -ForegroundColor Green
     } Catch {
         Write-Host "An error occurred while creating the user: $_" -ForegroundColor Red
@@ -66,13 +66,13 @@ try
     $GroupName = [Microsoft.VisualBasic.Interaction]::InputBox("Enter the group to add the user to (leave empty if none):", "User Creation", "")
     if (-not [string]::IsNullOrWhiteSpace($GroupName)) {
         # Check if the group exists
-        if (-not (Get-ADGroup -Filter {Name -eq $GroupName})) {
+        if (-not (Get-ADGroup -Filter {Name -eq $GroupName} -ErrorAction Stop)) {
             Write-Host "Group '$GroupName' does not exist!" -ForegroundColor Red
             Exit
         }
         # Add the user to the group
         Try {
-            Add-ADGroupMember -Identity $GroupName -Members $SamAccountName
+            Add-ADGroupMember -Identity $GroupName -Members $SamAccountName -ErrorAction Stop
             Write-Host "User added to group $GroupName successfully!" -ForegroundColor Green
         } Catch {
             Write-Host "An error occurred while adding the user to the group: $_" -ForegroundColor Red

@@ -27,7 +27,7 @@ try
     # Create and display a pop-up with a title, a text and an input set by default as 'none'
 
     try {
-        $infos = Get-ADGroup $groupName -Properties *
+        $infos = Get-ADGroup $groupName -Properties * -ErrorAction Stop
         # Get every property of the group
 
         if ($property -eq "" -or $property -eq "none") {

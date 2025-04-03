@@ -31,8 +31,8 @@ try
 
     # Try to reset the password and force password change at next logon
     Try {
-        Set-ADAccountPassword -Identity $UserName -NewPassword $SecurePwd -Reset
-        Set-ADUser -Identity $UserName -ChangePasswordAtLogon $true
+        Set-ADAccountPassword -Identity $UserName -NewPassword $SecurePwd -Reset -ErrorAction Stop
+        Set-ADUser -Identity $UserName -ChangePasswordAtLogon $true -ErrorAction Stop
         Write-Host "Password reset successful for $UserName! He will need to change it at the next login." -ForegroundColor Green
     } Catch {
         Write-Host "Error: $_" -ForegroundColor Red

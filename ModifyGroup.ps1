@@ -50,8 +50,8 @@ try
                 Exit
             }
 
-            Get-ADGroup -Identity $groupName | Rename-ADObject -NewName $newName
-            Set-ADGroup -Identity $groupName -SamAccountName $newName
+            Get-ADGroup -Identity $groupName -ErrorAction Stop | Rename-ADObject -NewName $newName -ErrorAction Stop
+            Set-ADGroup -Identity $groupName -SamAccountName $newName -ErrorAction Stop
             # Modify both the displayed group name and the other group name
         }
         if ($toModify -eq "2") {
@@ -71,9 +71,9 @@ try
                 Exit 
             }
 
-            $domain = (Get-ADDomain).DistinguishedName
+            $domain = (Get-ADDomain -ErrorAction Stop).DistinguishedName
 
-            $unitPath = (Get-ADGroup -Filter "Name -eq '$groupName'").DistinguishedName
+            $unitPath = (Get-ADGroup -Filter "Name -eq '$groupName'" -ErrorAction Stop).DistinguishedName
             $newUnitPath = "OU=$newUnit,$domain"
             # Unit path must have the name of the unit and the domain name
 
@@ -88,7 +88,7 @@ try
                 $newDescription = [Microsoft.VisualBasic.Interaction]::InputBox("New group description:", "Modify a group", "No description.")
                 # Create and display a pop-up with a title, a text and an input set by default as 'No description.'
             }
-            Set-ADGroup -Identity $groupName -Description $newDescription
+            Set-ADGroup -Identity $groupName -Description $newDescription -ErrorAction Stop
             # Modify the description of the name
         }
 

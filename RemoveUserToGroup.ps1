@@ -17,7 +17,7 @@ try
             Exit
         }
 
-        $userExist = Get-ADUser -Filter {SamAccountName -eq $userName}
+        $userExist = Get-ADUser -Filter {SamAccountName -eq $userName} -ErrorAction Stop
         # Check if a user exist by searching the name
     }
 
@@ -37,7 +37,7 @@ try
         Exit
     }
 
-    $isMember = Get-ADGroupMember $groupName | Where-Object { $_.SamAccountName -eq $userName }
+    $isMember = Get-ADGroupMember $groupName -ErrorAction Stop | Where-Object { $_.SamAccountName -eq $userName }
 
     if (-not $isMember) {
         Write-Host "Error! Failed to remove a user from group '$groupName'."
@@ -46,7 +46,7 @@ try
     }
 
     try {
-        Remove-ADGroupMember -Identity $groupName -Members $userName -Confirm:$false
+        Remove-ADGroupMember -Identity $groupName -Members $userName -Confirm:$false -ErrorAction Stop
         # Remove the member of a group
         # Skip the confirmation
     }

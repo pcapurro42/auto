@@ -20,7 +20,7 @@
 
     # Try to get the user details
     Try {
-        $User = Get-ADUser -Identity $UserName -Properties $AttributeFilter
+        $User = Get-ADUser -Identity $UserName -Properties $AttributeFilter -ErrorAction Stop
     } Catch {
         Write-Host "User $UserName not found!" -ForegroundColor Red
         Exit

@@ -25,7 +25,7 @@ try
 
     try {
 
-        $users = Get-ADGroupMember $groupName | Where-Object { $_.objectClass -eq "user" } | Select-Object -ExpandProperty SamAccountName
+        $users = Get-ADGroupMember $groupName -ErrorAction Stop | Where-Object { $_.objectClass -eq "user" } | Select-Object -ExpandProperty SamAccountName
         # Get infos about a group
         # Redirecting the infos to Where object which filter only the objects of type 'user'
         # Select only the names of the users

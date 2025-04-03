@@ -34,7 +34,7 @@ try
     $AttributeList = $Attributes -split "," | ForEach-Object { $_.Trim() }
     Try {
         Write-Host "Fetching users from Active Directory..." -ForegroundColor Cyan
-        $Users = Get-ADUser -Filter * -Property $AttributeList | Select-Object $AttributeList
+        $Users = Get-ADUser -Filter * -Property $AttributeList  -ErrorAction Stop | Select-Object $AttributeList
         #check if forest have user
         if ($Users.Count -eq 0) {
             Write-Host "No users found in Active Directory!" -ForegroundColor Red
@@ -51,7 +51,7 @@ try
     $GroupCsvPath = $CsvPath -replace "\.csv$", "_groups.csv"
     Try {
         Write-Host "Fetching groups from Active Directory..." -ForegroundColor Cyan
-        $Groups = Get-ADGroup -Filter * -Property Name, Description | Select-Object Name, Description
+        $Groups = Get-ADGroup -Filter * -Property Name, Description  -ErrorAction Stop | Select-Object Name, Description
         if ($Groups.Count -eq 0) {
             Write-Host "No groups found in Active Directory!" -ForegroundColor Red
             Exit

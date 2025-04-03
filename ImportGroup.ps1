@@ -42,13 +42,13 @@ try
 
     try {
 
-        $users = Get-ADGroupMember $groupNameA | Where-Object { $_.objectClass -eq "user" } | Select-Object -ExpandProperty SamAccountName
+        $users = Get-ADGroupMember $groupNameA -ErrorAction Stop | Where-Object { $_.objectClass -eq "user" } | Select-Object -ExpandProperty SamAccountName
         # Get infos about a group
         # Redirecting the infos to Where object which filter only the objects of type 'user'
         # Select only the names of the users
 
         foreach ($userName in $users) {
-            Add-ADGroupMember -Identity $groupNameB -Members $userName
+            Add-ADGroupMember -Identity $groupNameB -Members $userName -ErrorAction Stop
             # Adding the current member of groupA to groupB
         }
     }

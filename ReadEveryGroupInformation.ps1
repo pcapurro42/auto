@@ -10,7 +10,7 @@ try
     # Create and display a pop-up with a title, a text and an input set by default as 'No description.'
 
     try {
-        $groups = Get-ADGroup -Filter * | Select-Object -ExpandProperty Name
+        $groups = Get-ADGroup -Filter * -ErrorAction Stop | Select-Object -ExpandProperty Name
         # Get every name of every group
 
         foreach($groupName in $groups) {
@@ -18,7 +18,7 @@ try
             Write-Host "$groupName infos:"
             # Write a message in terminal
 
-            $infos = Get-ADGroup $groupName -Properties *
+            $infos = Get-ADGroup $groupName -Properties * -ErrorAction Stop
             # Get properties of every group
 
             if ($property -eq "" -or $property -eq "none") {

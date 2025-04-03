@@ -18,9 +18,10 @@
         $AttributeFilter = "*"  # Retrieve all attributes if no filter is given
     }
 
-    # Try to get the user details from AD based on the account name filter for domain Domolia.local
+    # Try to get the user details from AD based on the account name filter for domain
     Try {
-        $Users = Get-ADUser -Filter {SamAccountName -like $AccountNameFilter} -Server "Domolia.local" -Properties $AttributeFilter
+        $forestName = (Get-ADForest).Name
+        $Users = Get-ADUser -Filter {SamAccountName -like $AccountNameFilter} -Server $forestName -Properties $AttributeFilter -ErrorAction Stop
     } Catch {
         Write-Host "Error retrieving users: $_" -ForegroundColor Red
         Exit

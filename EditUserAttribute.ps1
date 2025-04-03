@@ -13,7 +13,7 @@ try
 
     # Try to get the user details from AD
     Try {
-        $User = Get-ADUser -Identity $UserName -Properties *
+        $User = Get-ADUser -Identity $UserName -Properties * -ErrorAction Stop
     } Catch {
         Write-Host "User $UserName not found!" -ForegroundColor Red
         Exit
@@ -57,7 +57,7 @@ try
     # Try to update the attribute
     Try {
         # Update the attribute using the mapped name
-        Set-ADUser -Identity $UserName -Replace @{ $AttributeName = $NewValue }
+        Set-ADUser -Identity $UserName -Replace @{ $AttributeName = $NewValue } -ErrorAction Stop
         Write-Host "Attribute $AttributeName for user $UserName has been updated to '$NewValue' successfully." -ForegroundColor Green
     } Catch {
         Write-Host "An error occurred while modifying the attribute: $_" -ForegroundColor Red

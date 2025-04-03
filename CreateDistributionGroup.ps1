@@ -38,7 +38,7 @@ try
         Exit
     }
 
-    $domain = (Get-ADDomain).DistinguishedName
+    $domain = (Get-ADDomain -ErrorAction Stop).DistinguishedName
     $unitPath = "OU=$groupUnit,$domain"
     # Unit path must have the name of the unit and the domain name
 
@@ -73,7 +73,8 @@ try
             -GroupCategory Distribution `
             -Path $unitPath `
             -GroupScope $groupScope `
-            -Description $groupDescription
+            -Description $groupDescription `
+            -ErrorAction Stop `
         # Create a new distribution group
         # ` is a \n
     }

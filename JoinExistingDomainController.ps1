@@ -35,6 +35,7 @@ try
             -DomainName $DomainName `
             -Credential $Credentials `
             -InstallDNS `
+            -ErrorAction Stop `
             -Force
 
         Write-Host "Install finish ! Your computer will restart in 10 sec" -ForegroundColor Green
