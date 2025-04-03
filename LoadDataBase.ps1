@@ -86,7 +86,7 @@ try
                     New-ADGroup -Name $var `
                                 -GroupScope Global `
                                 -Description $Group.Description `
-                                -Path $unitPath -ErrorAction Stop `
+                                -Path $unitPath `
                                 -ErrorAction Stop `
                     Write-Host "Group $($Group.Name) created successfully!" -ForegroundColor Green
                 }
