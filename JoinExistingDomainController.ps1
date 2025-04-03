@@ -33,6 +33,7 @@ try
     Try {
         Install-ADDSDomainController `
             -DomainName $DomainName `
+            -SafeModeAdministratorPassword $SecurePwd `
             -Credential $Credentials `
             -InstallDNS `
             -ErrorAction Stop `
