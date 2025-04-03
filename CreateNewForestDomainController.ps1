@@ -37,7 +37,9 @@ try
             -DomainNetbiosName $NetBIOSName `
             -SafeModeAdministratorPassword $SecurePwd `
             -InstallDNS `
-            -Force
+            -ErrorAction Stop `
+            -Force `
+            
 
         Write-Host "Install finish ! Your computer will restart in 10 sec" -ForegroundColor Green
         Start-Sleep -Seconds 10

@@ -37,8 +37,16 @@ try
     }
     #create User if not exist
     foreach ($User in $UserData) {
+
+        Write-Host $User
+        Write-Host $User.SamAccountName
+           
         Try {
-            $UserExists = Get-ADUser -Filter {SamAccountName -eq $User.SamAccountName} -ErrorAction SilentlyContinue
+
+            $var = $User.SamAccountName
+            $UserExists = Get-ADUser -Filter {SamAccountName -eq $var} -ErrorAction SilentlyContinue
+
+
             if (-Not $UserExists) {
                 Write-Host "Creating user: $($User.Name)..." -ForegroundColor Yellow
                 New-ADUser -Name $User.Name `
@@ -49,7 +57,7 @@ try
                         -Enabled $true `
                         -PasswordNeverExpires $true `
                         -AccountPassword (ConvertTo-SecureString "TotalyN0tSecure" -AsPlainText -Force) `
-                        -ChangePasswordAtLogon $true -ErrorAction Stop
+                        -ChangePasswordAtLogon $false -ErrorAction Stop
                 Write-Host "User $($User.Name) created successfully!" -ForegroundColor Green
             }
         } Catch {
@@ -59,6 +67,7 @@ try
     }
     Write-Host "Finish for users !" -ForegroundColor Green
     #check if csv file _group exist
+
     $GroupCsvPath = $CsvPath -replace '\.csv$', '_groups.csv'
     if (Test-Path $GroupCsvPath) {
         Try {
@@ -67,16 +76,22 @@ try
             Write-Host "Error loading group CSV file: $_" -ForegroundColor Red
             Exit
         }
+
+        $domain = (Get-ADDomain).DistinguishedName
+        #$unitPath = "OU=Users,$domain"
+        $unitPath = "CN=Users,$domain"
+
         #try to create group if not exist in AD
         foreach ($Group in $GroupData) {
             Try {
-                $GroupExists = Get-ADGroup -Filter {Name -eq $Group.Name} -ErrorAction SilentlyContinue
+                $var = $Group.Name
+                $GroupExists = Get-ADGroup -Filter {Name -eq $var} -ErrorAction SilentlyContinue
                 if (-Not $GroupExists) {
                     Write-Host "Creating group: $($Group.Name)..." -ForegroundColor Yellow
-                    New-ADGroup -Name $Group.Name `
+                    New-ADGroup -Name $var `
                                 -GroupScope Global `
                                 -Description $Group.Description `
-                                -Path "OU=Groups,DC=mondomaine,DC=local" -ErrorAction Stop
+                                -Path $unitPath -ErrorAction Stop
                     Write-Host "Group $($Group.Name) created successfully!" -ForegroundColor Green
                 }
             } Catch {
