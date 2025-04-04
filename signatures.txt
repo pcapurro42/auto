@@ -1,0 +1,7 @@
+ae8db4394f71f7196154068a68f5482fa1b48cce  server1.vdi
+
+b1ec8fe3739b1fcdf0b9fb472a1e8d91fc322faa  server2.vdi
+
+b8f61d292efb9ea512a6cd6c54ffb3e7e0b04444  machine1.vdi
+
+8e65b7fb1d55c097af81880f1f0a5a8fd492975d  machine2.vdi
