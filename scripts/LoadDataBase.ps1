@@ -53,7 +53,7 @@ try
                         -PasswordNeverExpires $true `
                         -AccountPassword (ConvertTo-SecureString "TotalyN0tSecure" -AsPlainText -Force) `
                         -ChangePasswordAtLogon $false `
-                        -ErrorAction Stop `
+                        -ErrorAction Stop
                 Write-Host "User $($User.Name) created successfully!" -ForegroundColor Green
             }
         } Catch {
@@ -87,7 +87,7 @@ try
                                 -GroupScope Global `
                                 -Description $Group.Description `
                                 -Path $unitPath `
-                                -ErrorAction Stop `
+                                -ErrorAction Stop
                     Write-Host "Group $($Group.Name) created successfully!" -ForegroundColor Green
                 }
             } Catch {
